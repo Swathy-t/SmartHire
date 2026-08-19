@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+
+    <span class="eyebrow">
+        CANDIDATE MANAGEMENT
+    </span>
+
+    <h1>Students</h1>
+
+    <p>
+        Register and manage placement candidates.
+    </p>
+
+</div>
+
+
+<div class="form-panel">
+
+    <h2>➕ Add New Student</h2>
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <input
+                name="name"
+                placeholder="Student Name"
+                required>
+
+            <input
+                name="email"
+                type="email"
+                placeholder="Email">
+
+            <input
+                name="phone"
+                placeholder="Phone">
+
+            <input
+                name="department"
+                placeholder="Department">
+
+            <input
+                name="cgpa"
+                type="number"
+                step="0.01"
+                placeholder="CGPA">
+
+            <input
+                name="skills"
+                placeholder="Skills e.g. Python, Excel, SQL">
+
+            <input
+                name="certifications"
+                placeholder="Certifications">
+
+            <input
+                name="resume"
+                placeholder="Resume link">
+
+            <button class="primary-btn"
+                    type="submit">
+                Add Student
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="panel-head">
+
+        <div>
+            <h2>Student Directory</h2>
+            <p>{{ students|length }} records</p>
+        </div>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+        <table class="filterable">
+
+            <thead>
+
+            <tr>
+                <th>Student</th>
+                <th>Department</th>
+                <th>CGPA</th>
+                <th>Skills</th>
+                <th>Action</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for student in students %}
+
+            <tr>
+
+                <td>
+                    <b>{{ student.name }}</b>
+                    <small>{{ student.email }}</small>
+                </td>
+
+                <td>
+                    {{ student.department }}
+                </td>
+
+                <td>
+                    <span class="chip green">
+                        {{ student.cgpa }}
+                    </span>
+                </td>
+
+                <td>
+                    {{ student.skills }}
+                </td>
+
+                <td>
+
+                    <form method="POST"
+                          action="{{ url_for('delete_student', id=student.id) }}"
+                          onsubmit="return confirm('Delete this student?')">
+
+                        <button class="icon-btn danger">
+                            🗑
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="5" class="empty">
+                    No students found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+
+    <span class="eyebrow">
+        INTERVIEW CENTER
+    </span>
+
+    <h1>Interviews</h1>
+
+    <p>
+        Schedule and manage candidate interview rounds.
+    </p>
+
+</div>
+
+
+<div class="form-panel">
+
+    <h2>📅 Schedule Interview</h2>
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <select name="student_id" required>
+
+                <option value="">
+                    Select Student
+                </option>
+
+                {% for student in students %}
+
+                <option value="{{ student.id }}">
+                    {{ student.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <select name="company_id" required>
+
+                <option value="">
+                    Select Company
+                </option>
+
+                {% for company in companies %}
+
+                <option value="{{ company.id }}">
+                    {{ company.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <select name="round">
+
+                <option>HR Round</option>
+                <option>Technical Round</option>
+                <option>Aptitude Round</option>
+                <option>Managerial Round</option>
+                <option>Final Round</option>
+
+            </select>
+
+
+            <input
+                name="interview_date"
+                type="date"
+                required>
+
+
+            <input
+                name="interview_time"
+                type="time"
+                required>
+
+
+            <select name="mode">
+
+                <option>Online</option>
+                <option>Offline</option>
+
+            </select>
+
+
+            <select name="status">
+
+                <option>Scheduled</option>
+                <option>Completed</option>
+                <option>Cancelled</option>
+
+            </select>
+
+
+            <button class="primary-btn">
+                Schedule Interview
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<div class="card-grid">
+
+{% for item in interviews %}
+
+<div class="interview-card">
+
+    <div class="date-box">
+
+        <b>
+            {{ item.interview_date[8:10] }}
+        </b>
+
+        <small>
+            {{ item.interview_date[5:7] }}
+        </small>
+
+    </div>
+
+
+    <div class="grow">
+
+        <h3>
+            {{ item.student_name }}
+        </h3>
+
+        <p>
+            🏢 {{ item.company_name }}
+        </p>
+
+        <p>
+            🎯 {{ item.round }}
+        </p>
+
+        <p>
+            🕐 {{ item.interview_time }}
+            · {{ item.mode }}
+        </p>
+
+
+        <form method="POST"
+              action="{{ url_for('delete_interview', id=item.id) }}"
+              onsubmit="return confirm('Delete interview?')">
+
+            <button class="outline-btn danger-text">
+                🗑 Delete
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<div class="empty">
+    No interviews scheduled.
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

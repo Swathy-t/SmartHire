@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Management | SmartHire</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 72px;
+            background: linear-gradient(135deg, #111827, #312e81);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin {
+            font-size: 15px;
+            opacity: .9;
+        }
+
+        .logout {
+            background: #ef4444;
+            border: none;
+            color: white;
+            padding: 11px 19px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .logout:hover {
+            background: #dc2626;
+        }
+
+        /* PAGE */
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 35px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 34px;
+            font-weight: 750;
+            color: #172554;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            margin-top: 7px;
+            font-size: 16px;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            border: none;
+            padding: 14px 22px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(37,99,235,.25);
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37,99,235,.35);
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 8px 25px rgba(15,23,42,.07);
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 31px;
+            font-weight: 800;
+            margin-top: 10px;
+            color: #172554;
+        }
+
+        .blue {
+            color: #2563eb;
+        }
+
+        .green {
+            color: #16a34a;
+        }
+
+        .orange {
+            color: #ea580c;
+        }
+
+        .purple {
+            color: #7c3aed;
+        }
+
+        /* SEARCH */
+
+        .toolbar {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 22px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 5px 20px rgba(15,23,42,.06);
+        }
+
+        .search-box {
+            flex: 1;
+            padding: 13px 16px;
+            border: 1px solid #dbe1ea;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-box:focus {
+            border-color: #2563eb;
+        }
+
+        .filter {
+            padding: 13px 16px;
+            border: 1px solid #dbe1ea;
+            border-radius: 9px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* TABLE */
+
+        .table-card {
+            background: white;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(15,23,42,.07);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-size: 13px;
+            text-align: left;
+            padding: 16px;
+        }
+
+        td {
+            padding: 17px 16px;
+            border-bottom: 1px solid #eef2f7;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #fafcff;
+        }
+
+        .job-title {
+            font-weight: 700;
+            color: #172554;
+        }
+
+        .company {
+            color: #64748b;
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .closed {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .actions {
+            display: flex;
+            gap: 7px;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 8px 11px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .view {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .edit {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+            color: #94a3b8;
+        }
+
+        /* MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,.6);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-box {
+            width: 500px;
+            max-width: 92%;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 25px 60px rgba(0,0,0,.25);
+            animation: popup .2s ease;
+        }
+
+        @keyframes popup {
+
+            from {
+                transform: scale(.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: #172554;
+        }
+
+        .close {
+            border: none;
+            background: #f1f5f9;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: #334155;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dbe1ea;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg,#2563eb,#4f46e5);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 900px) {
+
+            .stats {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+        }
+
+        @media(max-width: 600px) {
+
+            .container {
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                flex-direction: column;
+            }
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .admin {
+                display: none;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">🤖</div>
+        SmartHire
+    </div>
+
+    <div class="nav-right">
+
+        <span class="admin">
+            Welcome, Admin
+        </span>
+
+        <button class="logout" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</nav>
+
+
+<!-- MAIN -->
+
+<div class="container">
+
+    <div class="page-header">
+
+        <div>
+            <div class="page-title">
+                Job Management
+            </div>
+
+            <div class="page-subtitle">
+                Create, manage and monitor placement opportunities.
+            </div>
+        </div>
+
+        <button class="add-btn" onclick="openModal()">
+            + Add New Job
+        </button>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Total Jobs
+            </div>
+
+            <div class="stat-number blue" id="totalJobs">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Active Jobs
+            </div>
+
+            <div class="stat-number green" id="activeJobs">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Applications
+            </div>
+
+            <div class="stat-number orange" id="applications">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Companies
+            </div>
+
+            <div class="stat-number purple" id="companies">
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="toolbar">
+
+        <input
+            type="text"
+            class="search-box"
+            id="searchInput"
+            placeholder="🔍 Search jobs, companies or locations..."
+            onkeyup="searchJobs()"
+        >
+
+        <select
+            class="filter"
+            id="statusFilter"
+            onchange="searchJobs()"
+        >
+
+            <option value="all">
+                All Status
+            </option>
+
+            <option value="active">
+                Active
+            </option>
+
+            <option value="closed">
+                Closed
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Job</th>
+
+                    <th>Company</th>
+
+                    <th>Location</th>
+
+                    <th>Type</th>
+
+                    <th>Salary</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="jobsTable">
+
+                <!-- JavaScript will load jobs -->
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ADD JOB MODAL -->
+
+<div class="modal" id="jobModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>Add New Job</h2>
+
+            <button
+                class="close"
+                onclick="closeModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Job Title
+            </label>
+
+            <input
+                type="text"
+                id="jobTitle"
+                class="form-control"
+                placeholder="Example: Software Developer"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Company
+            </label>
+
+            <input
+                type="text"
+                id="companyName"
+                class="form-control"
+                placeholder="Example: TCS"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Location
+            </label>
+
+            <input
+                type="text"
+                id="location"
+                class="form-control"
+                placeholder="Example: Chennai"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Job Type
+            </label>
+
+            <select id="jobType" class="form-control">
+
+                <option>
+                    Full Time
+                </option>
+
+                <option>
+                    Internship
+                </option>
+
+                <option>
+                    Part Time
+                </option>
+
+                <option>
+                    Remote
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Salary
+            </label>
+
+            <input
+                type="text"
+                id="salary"
+                class="form-control"
+                placeholder="Example: ₹4 - ₹6 LPA"
+            >
+
+        </div>
+
+
+        <button
+            class="submit-btn"
+            onclick="addJob()"
+        >
+            Create Job
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* SAMPLE JOB DATA */
+
+    let jobs = [
+
+        {
+            id: 1,
+            title: "Software Developer",
+            company: "TCS",
+            location: "Chennai",
+            type: "Full Time",
+            salary: "₹4 - ₹6 LPA",
+            status: "active",
+            applications: 32
+        },
+
+        {
+            id: 2,
+            title: "Data Analyst",
+            company: "Infosys",
+            location: "Bangalore",
+            type: "Full Time",
+            salary: "₹5 - ₹7 LPA",
+            status: "active",
+            applications: 24
+        },
+
+        {
+            id: 3,
+            title: "AI Intern",
+            company: "Zoho",
+            location: "Chennai",
+            type: "Internship",
+            salary: "₹20K / Month",
+            status: "active",
+            applications: 18
+        },
+
+        {
+            id: 4,
+            title: "Web Developer",
+            company: "Wipro",
+            location: "Hyderabad",
+            type: "Full Time",
+            salary: "₹4 - ₹5 LPA",
+            status: "closed",
+            applications: 41
+        }
+
+    ];
+
+
+    /* LOAD JOBS */
+
+    function loadJobs(data = jobs) {
+
+        const table =
+            document.getElementById("jobsTable");
+
+        table.innerHTML = "";
+
+        if(data.length === 0) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="7" class="empty">
+                        🔍 No jobs found
+                    </td>
+                </tr>
+            `;
+
+            updateStats();
+
+            return;
+        }
+
+
+        data.forEach(job => {
+
+            table.innerHTML += `
+
+                <tr>
+
+                    <td>
+
+                        <div class="job-title">
+                            ${job.title}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="job-title">
+                            ${job.company}
+                        </div>
+
+                    </td>
+
+
+                    <td>
+                        📍 ${job.location}
+                    </td>
+
+
+                    <td>
+                        ${job.type}
+                    </td>
+
+
+                    <td>
+                        ${job.salary}
+                    </td>
+
+
+                    <td>
+
+                        <span class="badge ${job.status}">
+                            ${job.status.toUpperCase()}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn view"
+                                onclick="viewJob(${job.id})"
+                            >
+                                View
+                            </button>
+
+
+                            <button
+                                class="action-btn edit"
+                                onclick="editJob(${job.id})"
+                            >
+                                Edit
+                            </button>
+
+
+                            <button
+                                class="action-btn delete"
+                                onclick="deleteJob(${job.id})"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+        updateStats();
+
+    }
+
+
+    /* UPDATE STATISTICS */
+
+    function updateStats() {
+
+        document.getElementById("totalJobs").innerText =
+            jobs.length;
+
+
+        document.getElementById("activeJobs").innerText =
+            jobs.filter(j => j.status === "active").length;
+
+
+        document.getElementById("applications").innerText =
+            jobs.reduce(
+                (total, job) => total + job.applications,
+                0
+            );
+
+
+        const companies =
+            new Set(
+                jobs.map(j => j.company)
+            );
+
+        document.getElementById("companies").innerText =
+            companies.size;
+
+    }
+
+
+    /* OPEN MODAL */
+
+    function openModal() {
+
+        document.getElementById("jobModal").style.display =
+            "flex";
+
+    }
+
+
+    /* CLOSE MODAL */
+
+    function closeModal() {
+
+        document.getElementById("jobModal").style.display =
+            "none";
+
+    }
+
+
+    /* ADD JOB */
+
+    function addJob() {
+
+        const title =
+            document.getElementById("jobTitle").value.trim();
+
+        const company =
+            document.getElementById("companyName").value.trim();
+
+        const location =
+            document.getElementById("location").value.trim();
+
+        const type =
+            document.getElementById("jobType").value;
+
+        const salary =
+            document.getElementById("salary").value.trim();
+
+
+        if(
+            title === "" ||
+            company === "" ||
+            location === "" ||
+            salary === ""
+        ) {
+
+            alert(
+                "Please fill all required fields."
+            );
+
+            return;
+
+        }
+
+
+        const newJob = {
+
+            id: Date.now(),
+
+            title: title,
+
+            company: company,
+
+            location: location,
+
+            type: type,
+
+            salary: salary,
+
+            status: "active",
+
+            applications: 0
+
+        };
+
+
+        jobs.unshift(newJob);
+
+        saveJobs();
+
+        loadJobs();
+
+        closeModal();
+
+        clearForm();
+
+
+        alert(
+            "✅ Job created successfully!"
+        );
+
+    }
+
+
+    /* CLEAR FORM */
+
+    function clearForm() {
+
+        document.getElementById("jobTitle").value = "";
+
+        document.getElementById("companyName").value = "";
+
+        document.getElementById("location").value = "";
+
+        document.getElementById("salary").value = "";
+
+    }
+
+
+    /* VIEW */
+
+    function viewJob(id) {
+
+        const job =
+            jobs.find(j => j.id === id);
+
+        if(!job) return;
+
+
+        alert(
+
+            "JOB DETAILS\n\n" +
+
+            "Job: " + job.title + "\n" +
+
+            "Company: " + job.company + "\n" +
+
+            "Location: " + job.location + "\n" +
+
+            "Type: " + job.type + "\n" +
+
+            "Salary: " + job.salary + "\n" +
+
+            "Applications: " + job.applications
+
+        );
+
+    }
+
+
+    /* EDIT */
+
+    function editJob(id) {
+
+        const job =
+            jobs.find(j => j.id === id);
+
+        if(!job) return;
+
+
+        const newTitle =
+            prompt(
+                "Enter new job title:",
+                job.title
+            );
+
+
+        if(newTitle === null) return;
+
+
+        const newSalary =
+            prompt(
+                "Enter new salary:",
+                job.salary
+            );
+
+
+        if(newSalary === null) return;
+
+
+        job.title =
+            newTitle.trim() || job.title;
+
+
+        job.salary =
+            newSalary.trim() || job.salary;
+
+
+        saveJobs();
+
+        loadJobs();
+
+
+        alert(
+            "✅ Job updated successfully!"
+        );
+
+    }
+
+
+    /* DELETE */
+
+    function deleteJob(id) {
+
+        const job =
+            jobs.find(j => j.id === id);
+
+
+        if(!job) return;
+
+
+        const confirmDelete =
+            confirm(
+                `Delete "${job.title}" job?`
+            );
+
+
+        if(!confirmDelete) return;
+
+
+        jobs =
+            jobs.filter(
+                j => j.id !== id
+            );
+
+
+        saveJobs();
+
+        loadJobs();
+
+
+        alert(
+            "🗑️ Job deleted successfully!"
+        );
+
+    }
+
+
+    /* SEARCH */
+
+    function searchJobs() {
+
+        const search =
+            document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+
+        const status =
+            document
+                .getElementById("statusFilter")
+                .value;
+
+
+        const filtered =
+            jobs.filter(job => {
+
+                const matchesSearch =
+
+                    job.title
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    job.company
+                        .toLowerCase()
+                        .includes(search)
+
+                    ||
+
+                    job.location
+                        .toLowerCase()
+                        .includes(search);
+
+
+                const matchesStatus =
+
+                    status === "all"
+
+                    ||
+
+                    job.status === status;
+
+
+                return matchesSearch &&
+                       matchesStatus;
+
+            });
+
+
+        loadJobs(filtered);
+
+    }
+
+
+    /* LOCAL STORAGE */
+
+    function saveJobs() {
+
+        localStorage.setItem(
+            "smarthire_jobs",
+            JSON.stringify(jobs)
+        );
+
+    }
+
+
+    function loadSavedJobs() {
+
+        const saved =
+            localStorage.getItem(
+                "smarthire_jobs"
+            );
+
+
+        if(saved) {
+
+            jobs =
+                JSON.parse(saved);
+
+        }
+
+
+        loadJobs();
+
+    }
+
+
+    /* LOGOUT */
+
+    function logout() {
+
+        const result =
+            confirm(
+                "Do you want to logout?"
+            );
+
+
+        if(result) {
+
+            window.location.href = "/";
+
+        }
+
+    }
+
+
+    /* CLOSE MODAL OUTSIDE */
+
+    window.onclick =
+        function(event) {
+
+            const modal =
+                document.getElementById(
+                    "jobModal"
+                );
+
+
+            if(event.target === modal) {
+
+                closeModal();
+
+            }
+
+        };
+
+
+    /* START */
+
+    loadSavedJobs();
+
+</script>
+
+</body>
+</html>

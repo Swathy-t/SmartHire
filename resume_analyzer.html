@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+
+    <span class="eyebrow">
+        AI CAREER INTELLIGENCE
+    </span>
+
+    <h1>🤖 Resume Match Analyzer</h1>
+
+    <p>
+        Compare resume skills with a job description.
+    </p>
+
+</div>
+
+
+<div class="ai-layout">
+
+    <div class="form-panel">
+
+        <h2>Candidate Resume</h2>
+
+        <form method="POST">
+
+            <label>
+                Paste resume content
+            </label>
+
+            <textarea
+                name="resume"
+                rows="15"
+                placeholder="Python, Excel, SQL, communication..."
+                required></textarea>
+
+
+            <label>
+                Job Description
+            </label>
+
+            <textarea
+                name="job"
+                rows="10"
+                placeholder="Python SQL Excel communication business analysis..."
+                required></textarea>
+
+
+            <button class="primary-btn">
+                ✨ Analyze Match
+            </button>
+
+        </form>
+
+    </div>
+
+
+    {% if result %}
+
+    <div class="match-card">
+
+        <span class="eyebrow">
+            MATCH RESULT
+        </span>
+
+        <div class="match-ring">
+
+            {{ result.score }}%
+
+        </div>
+
+
+        <h3>
+            Skill Compatibility
+        </h3>
+
+
+        <p class="muted">
+            Matched keywords found between the resume
+            and job description.
+        </p>
+
+
+        <h3>
+            Matched Skills
+        </h3>
+
+        <div class="chips">
+
+            {% for skill in result.matched %}
+
+            <span class="chip green">
+                ✓ {{ skill }}
+            </span>
+
+            {% else %}
+
+            <span class="muted">
+                No matching skills found.
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+
+        <h3>
+            Skills to Improve
+        </h3>
+
+        <div class="chips">
+
+            {% for skill in result.missing %}
+
+            <span class="chip orange">
+                + {{ skill }}
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% else %}
+
+    <div class="match-card">
+
+        <span class="eyebrow">
+            AI INSIGHT
+        </span>
+
+        <h2>
+            Discover your job fit.
+        </h2>
+
+        <p class="muted">
+            Paste a resume and job description to calculate
+            a keyword-based compatibility score.
+        </p>
+
+        <div class="chips">
+
+            <span class="chip">
+                Python
+            </span>
+
+            <span class="chip">
+                SQL
+            </span>
+
+            <span class="chip">
+                Excel
+            </span>
+
+            <span class="chip">
+                Communication
+            </span>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

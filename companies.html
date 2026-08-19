@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+
+    <span class="eyebrow">
+        HIRING PARTNERS
+    </span>
+
+    <h1>Companies</h1>
+
+    <p>
+        Manage companies participating in campus recruitment.
+    </p>
+
+</div>
+
+
+<div class="form-panel">
+
+    <h2>🏢 Add Company</h2>
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <input
+                name="name"
+                placeholder="Company Name"
+                required>
+
+            <input
+                name="industry"
+                placeholder="Industry">
+
+            <input
+                name="location"
+                placeholder="Location">
+
+            <input
+                name="hr_name"
+                placeholder="HR / Recruiter Name">
+
+            <input
+                name="website"
+                placeholder="Website">
+
+            <button class="primary-btn">
+                Add Company
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<div class="card-grid">
+
+{% for company in companies %}
+
+<div class="company-card">
+
+    <div class="company-logo">
+        {{ company.name[0] }}
+    </div>
+
+    <div class="grow">
+
+        <h3>{{ company.name }}</h3>
+
+        <p>
+            {{ company.industry }} ·
+            {{ company.location }}
+        </p>
+
+        <p>
+            HR: {{ company.hr_name }}
+        </p>
+
+        <form method="POST"
+              action="{{ url_for('delete_company', id=company.id) }}"
+              onsubmit="return confirm('Delete company?')">
+
+            <button class="outline-btn danger-text">
+                🗑 Delete
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<div class="empty">
+    No companies added.
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

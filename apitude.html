@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+
+    <span class="eyebrow">
+        SMART ASSESSMENT
+    </span>
+
+    <h1>🧠 Aptitude Test</h1>
+
+    <p>
+        Complete the assessment and get an instant score.
+    </p>
+
+</div>
+
+
+<div class="test-card">
+
+    <div class="timer"
+         id="timer">
+        02:00
+    </div>
+
+
+    <form id="quizForm">
+
+        <div class="question">
+
+            <span>Question 01</span>
+
+            <h3>
+                What is the capital of France?
+            </h3>
+
+            <input
+                name="q0"
+                placeholder="Type your answer"
+                required>
+
+        </div>
+
+
+        <div class="question">
+
+            <span>Question 02</span>
+
+            <h3>
+                What is 5 × 5?
+            </h3>
+
+            <input
+                name="q1"
+                placeholder="Type your answer"
+                required>
+
+        </div>
+
+
+        <div class="question">
+
+            <span>Question 03</span>
+
+            <h3>
+                Which language is used to structure webpages?
+            </h3>
+
+            <input
+                name="q2"
+                placeholder="Type your answer"
+                required>
+
+        </div>
+
+
+        <div class="question">
+
+            <span>Question 04</span>
+
+            <h3>
+                How many days are there in a week?
+            </h3>
+
+            <input
+                name="q3"
+                placeholder="Type your answer"
+                required>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="primary-btn">
+
+            Submit Test
+
+        </button>
+
+    </form>
+
+
+    <div
+        id="result"
+        class="result-box hidden">
+    </div>
+
+</div>
+
+{% endblock %}

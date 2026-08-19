@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page-head">
+
+    <span class="eyebrow">
+        PLACEMENT PIPELINE
+    </span>
+
+    <h1>Applications</h1>
+
+    <p>
+        Track candidates from application to selection.
+    </p>
+
+</div>
+
+
+<div class="form-panel">
+
+    <h2>📋 Add Application</h2>
+
+    <form method="POST">
+
+        <div class="form-grid">
+
+            <select name="student_id" required>
+
+                <option value="">
+                    Select Student
+                </option>
+
+                {% for student in students %}
+
+                <option value="{{ student.id }}">
+                    {{ student.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <select name="job_id" required>
+
+                <option value="">
+                    Select Job
+                </option>
+
+                {% for job in jobs %}
+
+                <option value="{{ job.id }}">
+                    {{ job.title }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <select name="status">
+
+                <option>Applied</option>
+                <option>Shortlisted</option>
+                <option>Interview</option>
+                <option>Selected</option>
+                <option>Rejected</option>
+
+            </select>
+
+
+            <button class="primary-btn">
+                Add Application
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<div class="panel">
+
+    <div class="table-wrap">
+
+        <table class="filterable">
+
+            <thead>
+
+            <tr>
+                <th>Student</th>
+                <th>Job</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for item in applications %}
+
+            <tr>
+
+                <td>
+                    <b>{{ item.student_name }}</b>
+                </td>
+
+                <td>
+                    {{ item.job_title }}
+                </td>
+
+                <td>
+                    {{ item.company_name }}
+                </td>
+
+                <td>
+
+                    <form method="POST"
+                          class="inline-form"
+                          action="{{ url_for('update_application', id=item.id) }}">
+
+                        <select name="status"
+                                onchange="this.form.submit()">
+
+                            {% for status in [
+                                'Applied',
+                                'Shortlisted',
+                                'Interview',
+                                'Selected',
+                                'Rejected'
+                            ] %}
+
+                            <option
+                                value="{{ status }}"
+                                {% if item.status == status %}
+                                selected
+                                {% endif %}>
+
+                                {{ status }}
+
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </form>
+
+                </td>
+
+                <td>
+
+                    <form method="POST"
+                          action="{{ url_for('delete_application', id=item.id) }}"
+                          onsubmit="return confirm('Delete application?')">
+
+                        <button class="icon-btn danger">
+                            🗑
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="5" class="empty">
+                    No applications found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

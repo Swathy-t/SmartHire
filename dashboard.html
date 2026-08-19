@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div>
+
+        <span class="eyebrow">
+            PLACEMENT INTELLIGENCE PLATFORM
+        </span>
+
+        <h1>
+            Build careers.<br>
+            Track placements. 🚀
+        </h1>
+
+        <p>
+            Manage students, companies, jobs and interviews
+            from one intelligent platform.
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('jobs') }}"
+       class="primary-btn">
+        + Add Job Opening
+    </a>
+
+</section>
+
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-icon blue">
+            👨‍🎓
+        </div>
+
+        <small>Total Students</small>
+
+        <strong>{{ counts.students }}</strong>
+
+        <span>Registered candidates</span>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon purple">
+            🏢
+        </div>
+
+        <small>Companies</small>
+
+        <strong>{{ counts.companies }}</strong>
+
+        <span>Hiring partners</span>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon orange">
+            💼
+        </div>
+
+        <small>Open Jobs</small>
+
+        <strong>{{ counts.jobs }}</strong>
+
+        <span>Active opportunities</span>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon green">
+            🎯
+        </div>
+
+        <small>Selected</small>
+
+        <strong>{{ counts.selected }}</strong>
+
+        <span>Students selected</span>
+
+    </div>
+
+</div>
+
+
+<div class="dashboard-grid">
+
+    <div class="panel">
+
+        <div class="panel-head">
+
+            <div>
+                <h2>Latest Job Openings</h2>
+                <p>Recently added opportunities</p>
+            </div>
+
+            <a href="{{ url_for('jobs') }}"
+               class="text-link">
+                View all →
+            </a>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table class="filterable">
+
+                <thead>
+
+                <tr>
+                    <th>Job</th>
+                    <th>Company</th>
+                    <th>Package</th>
+                    <th>Status</th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for job in recent_jobs %}
+
+                <tr>
+
+                    <td>
+                        <b>{{ job.title }}</b>
+                        <small>{{ job.location }}</small>
+                    </td>
+
+                    <td>
+                        {{ job.company_name }}
+                    </td>
+
+                    <td>
+                        {{ job.package }}
+                    </td>
+
+                    <td>
+                        <span class="badge green">
+                            {{ job.status }}
+                        </span>
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="4" class="empty">
+                        No jobs available.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <div class="panel-head">
+
+            <div>
+                <h2>Application Pipeline</h2>
+                <p>Latest applications</p>
+            </div>
+
+            <a href="{{ url_for('applications') }}"
+               class="text-link">
+                Manage →
+            </a>
+
+        </div>
+
+
+        {% for app in recent_apps %}
+
+        <div class="pipeline-row">
+
+            <div class="avatar small">
+                {{ app.student_name[0] }}
+            </div>
+
+            <div class="grow">
+
+                <b>{{ app.student_name }}</b>
+
+                <small>
+                    {{ app.job_title }}
+                </small>
+
+            </div>
+
+            <span class="badge">
+                {{ app.status }}
+            </span>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+            No applications yet.
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+<div class="quick-grid">
+
+    <a href="{{ url_for('students') }}"
+       class="quick-card">
+
+        <span>+</span>
+
+        <div>
+            <b>Add Student</b>
+            <small>Register candidate</small>
+        </div>
+
+    </a>
+
+
+    <a href="{{ url_for('companies') }}"
+       class="quick-card">
+
+        <span>+</span>
+
+        <div>
+            <b>Add Company</b>
+            <small>Hiring partner</small>
+        </div>
+
+    </a>
+
+
+    <a href="{{ url_for('interviews') }}"
+       class="quick-card">
+
+        <span>+</span>
+
+        <div>
+            <b>Schedule Interview</b>
+            <small>Plan interview round</small>
+        </div>
+
+    </a>
+
+
+    <a href="{{ url_for('resume_analyzer') }}"
+       class="quick-card ai">
+
+        <span>AI</span>
+
+        <div>
+            <b>Resume Match</b>
+            <small>Analyze job fit</small>
+        </div>
+
+    </a>
+
+</div>
+
+{% endblock %}

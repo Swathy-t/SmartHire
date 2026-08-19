@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SmartHire</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar" id="sidebar">
+
+    <div class="brand">
+        <div class="brand-icon">S</div>
+        <div>
+            <b>SmartHire</b>
+            <small>Placement OS</small>
+        </div>
+    </div>
+
+    <nav>
+
+        <a href="{{ url_for('dashboard') }}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{{ url_for('students') }}">
+            👨‍🎓 Students
+            <span>{{ counts.students }}</span>
+        </a>
+
+        <a href="{{ url_for('companies') }}">
+            🏢 Companies
+            <span>{{ counts.companies }}</span>
+        </a>
+
+        <a href="{{ url_for('jobs') }}">
+            💼 Job Openings
+            <span>{{ counts.jobs }}</span>
+        </a>
+
+        <a href="{{ url_for('applications') }}">
+            📋 Applications
+            <span>{{ counts.applications }}</span>
+        </a>
+
+        <a href="{{ url_for('interviews') }}">
+            📅 Interviews
+            <span>{{ counts.interviews }}</span>
+        </a>
+
+        <div class="nav-title">
+            SMART TOOLS
+        </div>
+
+        <a href="{{ url_for('aptitude') }}">
+            🧠 Aptitude Test
+        </a>
+
+        <a href="{{ url_for('resume_analyzer') }}">
+            🤖 AI Resume Match
+        </a>
+
+        <a href="{{ url_for('analytics') }}">
+            📊 Analytics
+        </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <b>SmartHire v1.0</b>
+        <small>AI Placement Management</small>
+    </div>
+
+</div>
+
+
+<div class="main">
+
+    <header class="topbar">
+
+        <button class="menu-btn"
+                onclick="toggleSidebar()">
+            ☰
+        </button>
+
+        <div class="top-search">
+
+            🔍
+
+            <input
+                id="globalSearch"
+                type="text"
+                placeholder="Search..."
+                onkeyup="filterTable()">
+
+        </div>
+
+        <div class="profile">
+
+            <div class="avatar">
+                A
+            </div>
+
+            <div>
+                <b>Admin</b>
+                <small>Placement Officer</small>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+        <div class="flash-wrap">
+
+            {% for category, message in messages %}
+
+            <div class="flash {{ category }}">
+
+                {{ message }}
+
+                <button onclick="this.parentElement.remove()">
+                    ×
+                </button>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+    <main class="content">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
